@@ -1,3 +1,4 @@
+// Game properties
 var tttGame = function () {
 
     this.gridMatrix = [
@@ -14,6 +15,7 @@ var tttGame = function () {
     };
 };
 
+// Game function definitions
 tttGame.prototype.setLetter = function(row,col,letter) {
     if(document.getElementById(row + '_' + col).innerHTML == '_') {
         this.movesMade++;
@@ -245,6 +247,7 @@ tttGame.prototype.checkGameOver = function() {
     if(this.movesMade == 9)
         return 'T';
 }
+// End game function definitions
 
 // AI definition
 var tttAI = function(game,letter, order) {
@@ -315,11 +318,20 @@ var setup = function() {
                 return function() {
                     var set = game.setLetter(r,c,'X');
                     if(set) {
-                        if(game.checkWin('X')) {
-                            alert("X wins!");
-                            console.log("alert clicked!");
-                        } else {
-                            ai.move();
+                        ai.move();
+                        switch(game.checkGameOver()) {
+                            case 'X':
+                                alert("X wins!");
+                                setup();
+                                break;
+                            case 'O':
+                                alert("O wins!");
+                                setup();
+                                break;
+                            case 'T':
+                                alert("It's a tie!");
+                                setup();
+                                break;
                         }
                     }
                 }
