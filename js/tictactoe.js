@@ -134,8 +134,9 @@ tttGame.prototype.counterFork = function(letter) {
 
     if(potentialOpponentPlay == null) return null;
 
-    // If player fork is on a side play opposite corner
-    if(Math.abs(potentialOpponentPlay.row - potentialOpponentPlay.col) == 1)
+    // If player fork is on a side play opposite corner or
+    // override playSide behaviour in counterFork to force corner in case of second fork.
+    if(Math.abs(potentialOpponentPlay.row - potentialOpponentPlay.col) == 1 || this.movesMade > 4)
         return this.playOppositeCorner(opponent);
 
     // If player fork is on a corner play side
