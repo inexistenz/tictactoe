@@ -1,6 +1,7 @@
 // Game properties
 var tttGame = function () {
 
+    // Data structure to keep track of letters in columns
     this.gridMatrix = [
         ["_","_","_"],
         ["_","_","_"],
@@ -16,6 +17,8 @@ var tttGame = function () {
 };
 
 // Game function definitions
+
+// Set a letter at a specific row or column
 tttGame.prototype.setLetter = function(row,col,letter) {
     if(document.getElementById(row + '_' + col).innerHTML == '_') {
         this.movesMade++;
@@ -27,6 +30,10 @@ tttGame.prototype.setLetter = function(row,col,letter) {
     return false;
 }
 
+// All the position checking functions return a position object with a row and column member
+// or null
+
+// Check if placing letter can win the game
 tttGame.prototype.checkPotentialWin = function(letter) {
     var row = null;
     var col = null;
@@ -70,6 +77,7 @@ tttGame.prototype.checkPotentialWin = function(letter) {
     return null;
 }
 
+// Find place where the letter can create a potential win (two of the same letter in a row, column or diagonal)
 tttGame.prototype.getFork = function(letter) {
     var firstLetter = null;
     var secondLetter = null;
@@ -111,6 +119,7 @@ tttGame.prototype.getFork = function(letter) {
     return null;
 }
 
+// block opponent's potential fork
 tttGame.prototype.counterFork = function(letter) {
     var opponent = this.opponentMap[letter];
     var firstPlay = null;
@@ -206,6 +215,7 @@ tttGame.prototype.playSide = function() {
     return null;
 }
 
+// Check if game is won
 tttGame.prototype.checkWin = function(letter) {
     if(this.gridMatrix[0][0] == letter &&
         this.gridMatrix[0][0] == this.gridMatrix[1][1] &&
@@ -254,6 +264,8 @@ tttGame.prototype.checkGameOver = function() {
 var tttAI = function(game,letter, order) {
 
     this.letter = letter;
+
+    // This would be used to make AIs play against each other
     this.order = order;
 
     this.funcList = [
@@ -282,6 +294,7 @@ var tttAI = function(game,letter, order) {
         function(){ return game.playSide();}
     ];
 
+    // Go through the function list to check for next possible move.
     this.move = function() {
         var pos = null;
         for (var i=0; i < this.funcList.length; i++) {
@@ -313,6 +326,7 @@ var setup = function() {
 
     document.getElementById('main').innerHTML = str;
 
+    // Attach event to each cell
     for (row in game.gridMatrix) {
         for (col in game.gridMatrix[row]) {
             document.getElementById(row + '_' + col).addEventListener('click', (function(r,c) {
@@ -341,13 +355,3 @@ var setup = function() {
         }
     }
 };
-
-var startGame = function() {
-    setup();
-}
-
-if(document.addEventListener){
-    document.addEventListener('DOMContentLoaded', startGame, false);
-}else{
-    window.onload = startGame;
-}

@@ -4,8 +4,35 @@
   <meta charset="UTF-8">
   <title>Tic-Tac-Toe</title>
   <script type="text/javascript" src="js/tictactoe.js"></script>
+  <script>
+
+  var startGame = function() {
+    var mainDiv = document.createElement("div");
+    var containerDiv = document.createElement("div");
+
+    containerDiv.style.fontSize = "4em";
+    containerDiv.style.textAlign = "center";
+
+    mainDiv.id = "main";
+    containerDiv.appendChild(mainDiv);
+
+    document.body.appendChild(containerDiv);
+
+    //Call tictactoe setup
+    setup();
+
+  }
+
+  if(document.addEventListener){
+      document.addEventListener('DOMContentLoaded', startGame, false);
+  }else{
+      window.onload = startGame;
+  }
+
+  </script>
 </head>
-<body style="font-size: 4em; text-align: center;">
-  <div id="main"></div>
+
+<body>
+
 </body>
 </html>
